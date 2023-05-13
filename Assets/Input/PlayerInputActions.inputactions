@@ -1,0 +1,34 @@
+{
+    "name": "PlayerInputActions",
+    "maps": [
+        {
+            "name": "RTSController",
+            "id": "ed72175b-ab2d-4733-99cb-8bb13693b0b4",
+            "actions": [
+                {
+                    "name": "2DOverlay",
+                    "type": "Button",
+                    "id": "d2e7a02f-c563-4210-a1a8-9772d6118df0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "09df4144-0f63-46a9-bec1-28406fbfa350",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "2DOverlay",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
