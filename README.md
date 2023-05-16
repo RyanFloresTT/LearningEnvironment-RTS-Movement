@@ -1,3 +1,3 @@
 # LearningEnvironment-RTS-Movement
 
-Play the Web demo of this project [here](Webbuilds/index.html)
+Read my blog post [here](https://www.trustytea.me/post/how-i-made-an-rts-controller-with-unity)
