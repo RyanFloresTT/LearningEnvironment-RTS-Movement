@@ -35,6 +35,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveTowards"",
+                    ""type"": ""Button"",
+                    ""id"": ""41e23548-5c47-4bf6-a7bd-9d466515c4cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""2DOverlay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51a6f3ac-7423-4757-b7c2-052641b2fd1b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveTowards"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // RTSController
         m_RTSController = asset.FindActionMap("RTSController", throwIfNotFound: true);
         m_RTSController__2DOverlay = m_RTSController.FindAction("2DOverlay", throwIfNotFound: true);
+        m_RTSController_MoveTowards = m_RTSController.FindAction("MoveTowards", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +140,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_RTSController;
     private List<IRTSControllerActions> m_RTSControllerActionsCallbackInterfaces = new List<IRTSControllerActions>();
     private readonly InputAction m_RTSController__2DOverlay;
+    private readonly InputAction m_RTSController_MoveTowards;
     public struct RTSControllerActions
     {
         private @PlayerInputActions m_Wrapper;
         public RTSControllerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @_2DOverlay => m_Wrapper.m_RTSController__2DOverlay;
+        public InputAction @MoveTowards => m_Wrapper.m_RTSController_MoveTowards;
         public InputActionMap Get() { return m_Wrapper.m_RTSController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +159,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @_2DOverlay.started += instance.On_2DOverlay;
             @_2DOverlay.performed += instance.On_2DOverlay;
             @_2DOverlay.canceled += instance.On_2DOverlay;
+            @MoveTowards.started += instance.OnMoveTowards;
+            @MoveTowards.performed += instance.OnMoveTowards;
+            @MoveTowards.canceled += instance.OnMoveTowards;
         }
 
         private void UnregisterCallbacks(IRTSControllerActions instance)
@@ -143,6 +169,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @_2DOverlay.started -= instance.On_2DOverlay;
             @_2DOverlay.performed -= instance.On_2DOverlay;
             @_2DOverlay.canceled -= instance.On_2DOverlay;
+            @MoveTowards.started -= instance.OnMoveTowards;
+            @MoveTowards.performed -= instance.OnMoveTowards;
+            @MoveTowards.canceled -= instance.OnMoveTowards;
         }
 
         public void RemoveCallbacks(IRTSControllerActions instance)
@@ -163,5 +192,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IRTSControllerActions
     {
         void On_2DOverlay(InputAction.CallbackContext context);
+        void OnMoveTowards(InputAction.CallbackContext context);
     }
 }

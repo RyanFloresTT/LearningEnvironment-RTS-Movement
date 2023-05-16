@@ -210,3 +210,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   border: {fileID: 62160560452123400}
+  moveSpeed: 1
+  moveSpeedMultiplier: 1

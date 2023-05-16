@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +10,8 @@ public class RTSController : MonoBehaviour
     private PlayerInputActions playerInputActions;
     private Camera mainCamera;
     private List<PlayerControllableUnit> selectedUnits;
+    private Formations formation;
+    private FormationDropdownMenu formationDropdownMenu;
 
     private void Awake()
     { 
@@ -26,7 +26,15 @@ public class RTSController : MonoBehaviour
         playerInputActions.RTSController._2DOverlay.performed += Handle_Overlay_Performed;
         playerInputActions.RTSController._2DOverlay.canceled += Handle_Overlay_Canceled;
 
+        playerInputActions.RTSController.MoveTowards.performed += Handle_MoveTowards_Performed;
+
         playerInputActions.RTSController._2DOverlay.Enable();
+        playerInputActions.RTSController.MoveTowards.Enable();
+    }
+
+    private void Handle_FormationChanged(object sender, Formations e)
+    {
+        formation = e;
     }
 
     private void OnDisable()
@@ -37,6 +45,8 @@ public class RTSController : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        formationDropdownMenu = FormationDropdownMenu.Instance;
+        formationDropdownMenu.OnFormationDropdownMenuChanged += Handle_FormationChanged;
     }
 
     private void Update()
@@ -87,10 +97,46 @@ public class RTSController : MonoBehaviour
         Debug.Log(selectedUnits.Count);
     }
 
+    private void Handle_MoveTowards_Performed(InputAction.CallbackContext obj)
+    {
+        switch(formation)
+        {
+            case Formations.HorizontalLine:
+                MoveTowardsHorizontalLine();
+                break;
+            case Formations.VerticalLine:
+                MoveTowardsVerticalLine();
+                break;
+            case Formations.Circle: 
+                break;
+        }
+    }
+
     private Vector3 GetMouseToWorldPosition()
     {
         var mousePos = Input.mousePosition;
         return mainCamera.ScreenToWorldPoint(mousePos);
+    }
+
+    private void MoveTowardsHorizontalLine()
+    {
+        for (int i = 0; i < selectedUnits.Count; i++)
+        {
+            selectedUnits[i].MoveTo(GetMouseToWorldPosition() + new Vector3(0 + (1 * i), 0, 0));
+        }
+    }
+
+    private void MoveTowardsVerticalLine()
+    {
+        for (int i = 0; i < selectedUnits.Count; i++)
+        {
+            selectedUnits[i].MoveTo(GetMouseToWorldPosition() + new Vector3(0 , 0 + (1 * i), 0));
+        }
+    }
+
+    private void SetFormation(Formations formation)
+    {
+        this.formation = formation;
     }
 
     private bool SelectionAreaIsActive() => selectionArea.activeInHierarchy;
